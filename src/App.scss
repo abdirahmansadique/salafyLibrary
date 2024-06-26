@@ -1,0 +1,80 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.list {
+  background-color: rgb(241, 241, 244);
+padding:10px;
+}
+li{
+  margin: 5px;
+  padding: 4px;
+list-style: none;
+border-radius: 0px;
+background-color:  rgb(241, 241, 244);
+}
+.form{
+  margin-left: 8px;
+  border-radius: 7px;
+  border: none;
+  background-color:rgb(241, 241, 244) ;
+}
+.formm{
+  padding:4px;
+  justify-content: space-between;
+display: flex;
+flex-direction: row;
+overflow: hidden;
+
+}
+body{
+  background-color: rgb(200, 200, 251);
+}
+.mainDiv{
+  margin: 0px;
+  padding: 10px;
+background-color: rgb(212, 212, 242);
+
+}
+.list span{
+  padding: 5px;
+  margin: 2px;
+display: flex;
+flex-direction: column;
+justify-content: left;
+}
+body{
+margin:0px;
+}
+.list{
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+}
+.del{
+  background-color: rgb(247, 144, 144);
+  border-radius: 4px;
+  border: none;
+}
+.edit{
+  background-color: rgb(250, 182, 182);
+  border-radius: 4px;
+  border: none;
+}
+.del:hover{
+  background-color: rgb(247, 144, 144);
+  padding: 2px;
+border-radius: 4px;
+border: none;
+}
+button{
+background-color: rgb(134, 249, 134);
+padding: 1px;
+border: solid 4px rgb(134, 249, 134);
+border-radius:0px 4px 4px 0px;
+}
+button:hover{
+  padding: 2px;
+}
