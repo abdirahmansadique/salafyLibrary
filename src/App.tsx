@@ -1,58 +1,69 @@
-import { useState,useEffect,useRef } from 'react'
-import { UseLocalStorage } from './components/localStorage';
-import './App.scss'
 
-  interface Book {
-    name: string;
-    author: string;
-    year: string;
-  }
-  
-  function App() {
-    const { setItem, getItem } = UseLocalStorage("sadque");
-    const [list, setList] = useState<Book[]>([]);
-    const [inputValue, setInput] = useState<Book>({ name: 'Akidatul_Tawhid', author: 'Alfauzan', year: '2000' });
-    const [searchQuery, setSearchQuery] = useState<string>('');
-  
-    const nameRef = useRef<HTMLInputElement>(null);
-    const authorRef = useRef<HTMLInputElement>(null);
-    const yearRef = useRef<HTMLInputElement>(null);
-  
-    useEffect(() => {
-      const storedList = getItem();
-      if (storedList.length > 0) {
-        setList(storedList);
-      }
-    }, []);
-  
-    useEffect(() => {
-      setItem(list);
-    }, [list]);
-  
-    const addItem = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      const nameValue = nameRef.current?.value.trim() || '';
-      const authorValue = authorRef.current?.value.trim() || '';
-      const yearValue = yearRef.current?.value.trim() || '';
-      if (nameValue === '' || authorValue === '' || yearValue === '') return;
-  
-      const newBook: Book = { name: nameValue, author: authorValue, year: yearValue };
-      setList([...list, newBook]);
-      setInput({ name: '', author: '', year: '' });
-      if (nameRef.current) nameRef.current.value = '';
-      if (authorRef.current) authorRef.current.value = '';
-      if (yearRef.current) yearRef.current.value = '';
-    };
-  
-    const deleteItemFromList = (index: number) => {
-      setList(list.filter((_, i) => i !== index));
-    };
-  
-    const filteredList = list.filter(item =>
-      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      item.year.toLowerCase().includes(searchQuery.toLowerCase())
-    ).slice(0, 5);
+import './App.scss';
+import { UseLocalStorage } from './components/localStorage';
+import { useState, useEffect, useRef } from 'react';
+
+interface Book {
+  name: string;
+  author: string;
+  year: string;
+}
+
+function App() {
+  const { setItem, getItem } = UseLocalStorage("sadque");
+  const initialBooks: Book[] = [
+    { name: 'Akidatul_Tawhid', author: 'Alfauzan', year: '2000' },
+    { name: 'Kitab at-Tauhid', author: 'Muhammad ibn Abd al-Wahhab', year: '1780' },
+    { name: 'Fath al-Majid', author: 'Abdul-Rahman al-Sa\'di', year: '1930' },
+    // Add more initial books here
+  ];
+
+  const [list, setList] = useState<Book[]>([]);
+  const [inputValue, setInput] = useState<Book>({ name: '', author: '', year: '' });
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
+  const nameRef = useRef<HTMLInputElement>(null);
+  const authorRef = useRef<HTMLInputElement>(null);
+  const yearRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const storedList = getItem();
+    if (storedList.length > 0) {
+      setList(storedList);
+    } else {
+      setList(initialBooks);  // Load initial books if local storage is empty
+    }
+  }, []);
+
+  useEffect(() => {
+    setItem(list);
+  }, [list]);
+
+  const addItem = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const nameValue = nameRef.current?.value.trim() || '';
+    const authorValue = authorRef.current?.value.trim() || '';
+    const yearValue = yearRef.current?.value.trim() || '';
+    if (nameValue === '' || authorValue === '' || yearValue === '') return;
+
+    const newBook: Book = { name: nameValue, author: authorValue, year: yearValue };
+    setList([...list, newBook]);
+    setInput({ name: '', author: '', year: '' });
+    if (nameRef.current) nameRef.current.value = '';
+    if (authorRef.current) authorRef.current.value = '';
+    if (yearRef.current) yearRef.current.value = '';
+  };
+
+  const deleteItemFromList = (index: number) => {
+    setList(list.filter((_, i) => i !== index));
+  };
+
+  const filteredList = list.filter(item =>
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.author.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.year.toLowerCase().includes(searchQuery.toLowerCase())
+  ).slice(0, 5);
+
   return (
     <div className='mainDiv'>
       <div className='head'>
@@ -113,7 +124,7 @@ import './App.scss'
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
